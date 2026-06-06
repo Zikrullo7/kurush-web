@@ -12,7 +12,7 @@ export default function DownloadPage() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
-  const handleNotify = (e: React.FormEvent) => {
+  const handleNotify = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSubmitted(true)
     setEmail('')
@@ -35,11 +35,11 @@ export default function DownloadPage() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A1628', padding: '40px 24px' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', padding: '40px 24px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         {/* Header with mockup */}
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          {/* Phone mockup */}
+          {/* Phone mockup — intentionally kept dark (shows the actual app UI) */}
           <div style={{ display: 'inline-block', marginBottom: '32px', position: 'relative' }}>
             <div style={{ position: 'absolute', inset: '-20px', background: 'radial-gradient(ellipse at center, rgba(0,200,150,0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
             <div style={{ width: '200px', background: 'linear-gradient(160deg, #1a3a5c 0%, #0d2340 100%)', borderRadius: '36px', padding: '14px', border: '2px solid #1E3A5F', boxShadow: '0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)', position: 'relative' }}>
@@ -83,10 +83,10 @@ export default function DownloadPage() {
             </div>
           </div>
 
-          <h1 style={{ fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 800, color: '#FFFFFF', marginBottom: '16px' }}>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 800, color: 'var(--text)', marginBottom: '16px' }}>
             {t(lang, 'download_page_title')}
           </h1>
-          <p style={{ color: '#4A6080', fontSize: '18px', maxWidth: '500px', margin: '0 auto', lineHeight: 1.7 }}>
+          <p style={{ color: 'var(--muted)', fontSize: '18px', maxWidth: '500px', margin: '0 auto', lineHeight: 1.7 }}>
             {t(lang, 'download_page_subtitle')}
           </p>
         </div>
@@ -94,40 +94,40 @@ export default function DownloadPage() {
         {/* Cards grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '24px', marginBottom: '60px' }}>
           {/* Android */}
-          <div style={{ background: '#112240', border: '2px solid #00C896', borderRadius: '24px', padding: '36px', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: 'var(--bg-secondary)', border: '2px solid #00C896', borderRadius: '24px', padding: '36px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: '20px', right: '20px', background: 'rgba(0,200,150,0.15)', border: '1px solid rgba(0,200,150,0.3)', borderRadius: '100px', padding: '4px 12px', fontSize: '12px', color: '#00C896', fontWeight: 700 }}>
               {t(lang, 'download_available')}
             </div>
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>🤖</div>
-            <h2 style={{ fontSize: '26px', fontWeight: 800, color: '#FFFFFF', marginBottom: '8px' }}>{t(lang, 'download_android')}</h2>
-            <p style={{ color: '#4A6080', fontSize: '14px', marginBottom: '8px' }}>{t(lang, 'download_version')}</p>
-            <p style={{ color: '#4A6080', fontSize: '13px', marginBottom: '28px' }}>{t(lang, 'download_requirements')}</p>
+            <h2 style={{ fontSize: '26px', fontWeight: 800, color: 'var(--text)', marginBottom: '8px' }}>{t(lang, 'download_android')}</h2>
+            <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '8px' }}>{t(lang, 'download_version')}</p>
+            <p style={{ color: 'var(--muted)', fontSize: '13px', marginBottom: '28px' }}>{t(lang, 'download_requirements')}</p>
             <a href={APK_URL} download style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', background: '#00C896', color: '#0A1628', padding: '16px', borderRadius: '14px', textDecoration: 'none', fontWeight: 800, fontSize: '16px', boxShadow: '0 4px 20px rgba(0,200,150,0.35)', marginBottom: '16px', width: '100%' }}>
               {t(lang, 'download_btn')}
             </a>
-            <p style={{ color: '#4A6080', fontSize: '12px', textAlign: 'center' }}>{t(lang, 'download_direct_link')}</p>
+            <p style={{ color: 'var(--muted)', fontSize: '12px', textAlign: 'center' }}>{t(lang, 'download_direct_link')}</p>
           </div>
 
           {/* iOS */}
-          <div style={{ background: '#112240', border: '1px solid #1E3A5F', borderRadius: '24px', padding: '36px' }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '10px 16px', marginBottom: '20px' }}>
+          <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: '24px', padding: '36px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'rgba(128,128,128,0.08)', border: '1px solid var(--border)', borderRadius: '12px', padding: '10px 16px', marginBottom: '20px' }}>
               <span style={{ fontSize: '28px', lineHeight: 1 }}>🍎</span>
               <div>
-                <div style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '14px' }}>{t(lang, 'download_ios_badge')}</div>
-                <div style={{ color: '#4A6080', fontSize: '11px' }}>{t(lang, 'download_ios_soon')}</div>
+                <div style={{ color: 'var(--text)', fontWeight: 700, fontSize: '14px' }}>{t(lang, 'download_ios_badge')}</div>
+                <div style={{ color: 'var(--muted)', fontSize: '11px' }}>{t(lang, 'download_ios_soon')}</div>
               </div>
             </div>
-            <h2 style={{ fontSize: '26px', fontWeight: 800, color: '#FFFFFF', marginBottom: '8px' }}>iOS</h2>
-            <p style={{ color: '#4A6080', fontSize: '14px', marginBottom: '8px' }}>{t(lang, 'download_ios_soon')}</p>
-            <p style={{ color: '#4A6080', fontSize: '13px', marginBottom: '28px' }}>{t(lang, 'download_ios_year')}</p>
+            <h2 style={{ fontSize: '26px', fontWeight: 800, color: 'var(--text)', marginBottom: '8px' }}>iOS</h2>
+            <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '8px' }}>{t(lang, 'download_ios_soon')}</p>
+            <p style={{ color: 'var(--muted)', fontSize: '13px', marginBottom: '28px' }}>{t(lang, 'download_ios_year')}</p>
             {submitted ? (
               <div style={{ background: 'rgba(0,200,150,0.1)', border: '1px solid rgba(0,200,150,0.3)', borderRadius: '14px', padding: '16px', textAlign: 'center', color: '#00C896', fontWeight: 600 }}>
                 {t(lang, 'download_ios_notified')}
               </div>
             ) : (
               <form onSubmit={handleNotify}>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required style={{ width: '100%', background: '#0A1628', border: '1px solid #1E3A5F', borderRadius: '10px', padding: '12px 16px', color: '#FFFFFF', fontSize: '15px', outline: 'none', marginBottom: '12px' }} />
-                <button type="submit" style={{ width: '100%', background: 'transparent', border: '1px solid #1E3A5F', borderRadius: '10px', padding: '12px', color: '#FFFFFF', fontSize: '15px', fontWeight: 600, cursor: 'pointer' }}>
+                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required style={{ width: '100%', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '10px', padding: '12px 16px', color: 'var(--text)', fontSize: '15px', outline: 'none', marginBottom: '12px' }} />
+                <button type="submit" style={{ width: '100%', background: 'transparent', border: '1px solid var(--border)', borderRadius: '10px', padding: '12px', color: 'var(--text)', fontSize: '15px', fontWeight: 600, cursor: 'pointer' }}>
                   {t(lang, 'download_ios_notify')}
                 </button>
               </form>
@@ -136,38 +136,38 @@ export default function DownloadPage() {
         </div>
 
         {/* Installation guide */}
-        <div style={{ background: '#112240', border: '1px solid #1E3A5F', borderRadius: '24px', padding: '40px', marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '24px', fontWeight: 800, color: '#FFFFFF', marginBottom: '32px', textAlign: 'center' }}>
+        <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: '24px', padding: '40px', marginBottom: '40px' }}>
+          <h2 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text)', marginBottom: '32px', textAlign: 'center' }}>
             {t(lang, 'download_guide_title')}
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px' }}>
             {steps.map((s, i) => (
-              <div key={i} style={{ background: '#0A1628', borderRadius: '16px', padding: '24px', border: '1px solid #1E3A5F', textAlign: 'center' }}>
+              <div key={i} style={{ background: 'var(--bg)', borderRadius: '16px', padding: '24px', border: '1px solid var(--border)', textAlign: 'center' }}>
                 <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(0,200,150,0.15)', border: '2px solid rgba(0,200,150,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', margin: '0 auto 16px' }}>
                   {s.icon}
                 </div>
-                <div style={{ color: '#4A6080', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', marginBottom: '4px' }}>
+                <div style={{ color: 'var(--muted)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', marginBottom: '4px' }}>
                   {t(lang, 'download_step_label')} {i + 1}
                 </div>
-                <h3 style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '16px', marginBottom: '8px' }}>{s.title}</h3>
-                <p style={{ color: '#4A6080', fontSize: '13px', lineHeight: 1.6 }}>{s.desc}</p>
+                <h3 style={{ color: 'var(--text)', fontWeight: 700, fontSize: '16px', marginBottom: '8px' }}>{s.title}</h3>
+                <p style={{ color: 'var(--muted)', fontSize: '13px', lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Features */}
-        <div style={{ background: 'linear-gradient(135deg, #112240 0%, #0A1628 100%)', border: '1px solid #1E3A5F', borderRadius: '24px', padding: '40px', marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '24px', fontWeight: 800, color: '#FFFFFF', marginBottom: '32px', textAlign: 'center' }}>
+        <div style={{ background: 'linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%)', border: '1px solid var(--border)', borderRadius: '24px', padding: '40px', marginBottom: '40px' }}>
+          <h2 style={{ fontSize: '24px', fontWeight: 800, color: 'var(--text)', marginBottom: '32px', textAlign: 'center' }}>
             {t(lang, 'download_features_title')}
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
             {features.map((item) => (
-              <div key={item.title} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', padding: '16px' }}>
+              <div key={item.title} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'rgba(128,128,128,0.05)', borderRadius: '12px', padding: '16px' }}>
                 <span style={{ fontSize: '24px' }}>{item.icon}</span>
                 <div>
-                  <p style={{ color: '#FFFFFF', fontWeight: 600, fontSize: '14px', marginBottom: '2px' }}>{item.title}</p>
-                  <p style={{ color: '#4A6080', fontSize: '12px' }}>{item.desc}</p>
+                  <p style={{ color: 'var(--text)', fontWeight: 600, fontSize: '14px', marginBottom: '2px' }}>{item.title}</p>
+                  <p style={{ color: 'var(--muted)', fontSize: '12px' }}>{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -176,7 +176,7 @@ export default function DownloadPage() {
 
         {/* Try online */}
         <div style={{ textAlign: 'center' }}>
-          <p style={{ color: '#4A6080', fontSize: '16px', marginBottom: '16px' }}>{t(lang, 'download_try_online')}</p>
+          <p style={{ color: 'var(--muted)', fontSize: '16px', marginBottom: '16px' }}>{t(lang, 'download_try_online')}</p>
           <Link href="/chat" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#00C896', textDecoration: 'none', fontWeight: 700, fontSize: '16px', border: '1px solid rgba(0,200,150,0.3)', padding: '12px 24px', borderRadius: '12px' }}>
             {t(lang, 'download_try_chat')}
           </Link>

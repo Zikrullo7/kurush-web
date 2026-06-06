@@ -21,21 +21,21 @@ export default async function LawDetailPage({ params }: Props) {
   const chatUrl = `/chat?q=${encodeURIComponent(`Объясни мне ${law.article} — ${law.title}`)}`
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A1628', padding: '40px 24px' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', padding: '40px 24px' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         {/* Breadcrumb */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '32px', flexWrap: 'wrap' }}>
-          <Link href="/laws" style={{ color: '#4A6080', textDecoration: 'none', fontSize: '14px' }}>
+          <Link href="/laws" style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: '14px' }}>
             ← Библиотека законов
           </Link>
-          <span style={{ color: '#1E3A5F' }}>/</span>
-          <span style={{ color: '#4A6080', fontSize: '14px' }}>{cat?.name}</span>
+          <span style={{ color: 'var(--border)' }}>/</span>
+          <span style={{ color: 'var(--muted)', fontSize: '14px' }}>{cat?.name}</span>
         </div>
 
         {/* Law card */}
         <div style={{
-          background: '#112240',
-          border: '1px solid #1E3A5F',
+          background: 'var(--bg-secondary)',
+          border: '1px solid var(--border)',
           borderRadius: '20px',
           padding: '36px',
           marginBottom: '24px',
@@ -54,10 +54,10 @@ export default async function LawDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: '#FFFFFF', marginBottom: '12px', lineHeight: 1.3 }}>
+          <h1 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800, color: 'var(--text)', marginBottom: '12px', lineHeight: 1.3 }}>
             {law.title}
           </h1>
-          <p style={{ color: '#4A6080', fontSize: '16px', marginBottom: '28px', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--muted)', fontSize: '16px', marginBottom: '28px', lineHeight: 1.6 }}>
             {law.description}
           </p>
 
@@ -65,12 +65,12 @@ export default async function LawDetailPage({ params }: Props) {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '28px' }}>
             {law.tags.map((tag) => (
               <span key={tag} style={{
-                background: '#0A1628',
-                border: '1px solid #1E3A5F',
+                background: 'var(--bg)',
+                border: '1px solid var(--border)',
                 borderRadius: '100px',
                 padding: '4px 12px',
                 fontSize: '12px',
-                color: '#4A6080',
+                color: 'var(--muted)',
               }}>
                 #{tag}
               </span>
@@ -78,20 +78,20 @@ export default async function LawDetailPage({ params }: Props) {
           </div>
 
           {/* Divider */}
-          <div style={{ height: '1px', background: '#1E3A5F', marginBottom: '28px' }} />
+          <div style={{ height: '1px', background: 'var(--border)', marginBottom: '28px' }} />
 
           {/* Full text */}
           <div style={{
-            background: '#0A1628',
+            background: 'var(--bg)',
             borderRadius: '12px',
             padding: '24px',
-            border: '1px solid #1E3A5F',
+            border: '1px solid var(--border)',
           }}>
             <h2 style={{ color: '#00C896', fontWeight: 700, fontSize: '16px', marginBottom: '16px' }}>
               📄 Полный текст
             </h2>
             <pre style={{
-              color: '#FFFFFF',
+              color: 'var(--text)',
               fontSize: '15px',
               lineHeight: 1.8,
               fontFamily: 'inherit',
@@ -121,15 +121,15 @@ export default async function LawDetailPage({ params }: Props) {
         {/* Related */}
         {related.length > 0 && (
           <div>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#FFFFFF', marginBottom: '20px' }}>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: 'var(--text)', marginBottom: '20px' }}>
               Похожие законы
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {related.map((rel) => (
                 <Link key={rel.id} href={`/laws/${rel.id}`} style={{ textDecoration: 'none' }}>
                   <div style={{
-                    background: '#112240',
-                    border: '1px solid #1E3A5F',
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border)',
                     borderRadius: '12px',
                     padding: '16px 20px',
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -138,9 +138,9 @@ export default async function LawDetailPage({ params }: Props) {
                   >
                     <div>
                       <span style={{ color: '#00C896', fontSize: '12px', fontWeight: 600 }}>{rel.article}</span>
-                      <p style={{ color: '#FFFFFF', fontWeight: 600, marginTop: '2px' }}>{rel.title}</p>
+                      <p style={{ color: 'var(--text)', fontWeight: 600, marginTop: '2px' }}>{rel.title}</p>
                     </div>
-                    <span style={{ color: '#4A6080', fontSize: '18px' }}>→</span>
+                    <span style={{ color: 'var(--muted)', fontSize: '18px' }}>→</span>
                   </div>
                 </Link>
               ))}

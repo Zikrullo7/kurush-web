@@ -25,7 +25,6 @@ function ChatContent() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
-  // Reset welcome message when lang changes
   useEffect(() => {
     setMessages([{
       role: 'assistant',
@@ -71,7 +70,7 @@ function ChatContent() {
     } catch {
       setMessages((prev) => [...prev, {
         role: 'assistant',
-        content: lang === 'tj' ? '❌ Хатои пайваст. Интернетро санҷед.' : '❌ Ошибка соединения. Проверьте интернет.',
+        content: lang === 'tj' ? '❌ Пайваст нест. Интернетро тафтиш кунед.' : '❌ Нет соединения. Проверьте интернет.',
         timestamp: new Date(),
       }])
     } finally {
@@ -86,21 +85,21 @@ function ChatContent() {
   const limitReached = userMessageCount >= FREE_LIMIT
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)', background: '#0A1628', maxWidth: '800px', margin: '0 auto', padding: '0 16px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 64px)', background: 'var(--bg)', maxWidth: '800px', margin: '0 auto', padding: '0 16px' }}>
       {/* Header */}
-      <div style={{ padding: '20px 0 16px', borderBottom: '1px solid #1E3A5F', display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ padding: '20px 0 16px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: '12px' }}>
         <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: 'rgba(0,200,150,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
           🤖
         </div>
         <div>
-          <h1 style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '18px' }}>{t(lang, 'chat_title')}</h1>
-          <p style={{ color: '#4A6080', fontSize: '12px' }}>{t(lang, 'chat_subtitle')}</p>
+          <h1 style={{ color: 'var(--text)', fontWeight: 700, fontSize: '18px' }}>{t(lang, 'chat_title')}</h1>
+          <p style={{ color: 'var(--muted)', fontSize: '12px' }}>{t(lang, 'chat_subtitle')}</p>
         </div>
         <div style={{ marginLeft: 'auto' }}>
           <span style={{
-            background: '#112240', border: '1px solid #1E3A5F',
+            background: 'var(--bg-secondary)', border: '1px solid var(--border)',
             borderRadius: '100px', padding: '4px 12px', fontSize: '12px',
-            color: userMessageCount >= FREE_LIMIT - 1 ? '#FF6B6B' : '#4A6080',
+            color: userMessageCount >= FREE_LIMIT - 1 ? '#FF6B6B' : 'var(--muted)',
           }}>
             {FREE_LIMIT - userMessageCount} / {FREE_LIMIT} {t(lang, 'chat_free_label')}
           </span>
@@ -116,15 +115,15 @@ function ChatContent() {
             )}
             <div style={{
               maxWidth: '75%',
-              background: msg.role === 'user' ? 'rgba(0,200,150,0.15)' : '#112240',
-              border: `1px solid ${msg.role === 'user' ? 'rgba(0,200,150,0.3)' : '#1E3A5F'}`,
+              background: msg.role === 'user' ? 'rgba(0,200,150,0.15)' : 'var(--bg-secondary)',
+              border: `1px solid ${msg.role === 'user' ? 'rgba(0,200,150,0.3)' : 'var(--border)'}`,
               borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '4px 18px 18px 18px',
               padding: '12px 16px',
             }}>
-              <p style={{ color: msg.role === 'user' ? '#00C896' : '#FFFFFF', fontSize: '15px', lineHeight: 1.7, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+              <p style={{ color: msg.role === 'user' ? '#00C896' : 'var(--text)', fontSize: '15px', lineHeight: 1.7, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                 {msg.content}
               </p>
-              <span style={{ color: '#4A6080', fontSize: '11px', display: 'block', marginTop: '4px', textAlign: 'right' }}>
+              <span style={{ color: 'var(--muted)', fontSize: '11px', display: 'block', marginTop: '4px', textAlign: 'right' }}>
                 {msg.timestamp.toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}
               </span>
             </div>
@@ -135,9 +134,9 @@ function ChatContent() {
         {loading && (
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
             <div style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'rgba(0,200,150,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px' }}>🤖</div>
-            <div style={{ background: '#112240', border: '1px solid #1E3A5F', borderRadius: '4px 18px 18px 18px', padding: '14px 18px', display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: '4px 18px 18px 18px', padding: '14px 18px', display: 'flex', gap: '6px', alignItems: 'center' }}>
               {[0, 1, 2].map((i) => (
-                <div key={i} className="typing-dot" style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#4A6080', animationDelay: `${i * 0.2}s` }} />
+                <div key={i} className="typing-dot" style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--muted)', animationDelay: `${i * 0.2}s` }} />
               ))}
             </div>
           </div>
@@ -145,10 +144,10 @@ function ChatContent() {
 
         {/* Limit banner */}
         {limitReached && (
-          <div style={{ background: 'linear-gradient(135deg, #112240 0%, #0A1628 100%)', border: '1px solid #00C896', borderRadius: '16px', padding: '24px', textAlign: 'center' }}>
+          <div style={{ background: 'linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%)', border: '1px solid #00C896', borderRadius: '16px', padding: '24px', textAlign: 'center' }}>
             <div style={{ fontSize: '32px', marginBottom: '12px' }}>📱</div>
-            <h3 style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '18px', marginBottom: '8px' }}>{t(lang, 'chat_limit_title')}</h3>
-            <p style={{ color: '#4A6080', fontSize: '14px', lineHeight: 1.6, marginBottom: '20px' }}>{t(lang, 'chat_limit_desc')}</p>
+            <h3 style={{ color: 'var(--text)', fontWeight: 700, fontSize: '18px', marginBottom: '8px' }}>{t(lang, 'chat_limit_title')}</h3>
+            <p style={{ color: 'var(--muted)', fontSize: '14px', lineHeight: 1.6, marginBottom: '20px' }}>{t(lang, 'chat_limit_desc')}</p>
             <Link href="/download" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#00C896', color: '#0A1628', padding: '12px 24px', borderRadius: '10px', textDecoration: 'none', fontWeight: 700, fontSize: '15px' }}>
               {t(lang, 'chat_limit_btn')}
             </Link>
@@ -160,11 +159,11 @@ function ChatContent() {
 
       {/* Quick questions */}
       {messages.length <= 1 && !limitReached && Array.isArray(suggestions) && (
-        <div style={{ padding: '12px 0', display: 'flex', gap: '8px', flexWrap: 'wrap', borderTop: '1px solid #1E3A5F' }}>
+        <div style={{ padding: '12px 0', display: 'flex', gap: '8px', flexWrap: 'wrap', borderTop: '1px solid var(--border)' }}>
           {suggestions.map((q: string) => (
-            <button key={q} onClick={() => sendMessage(q)} style={{ background: '#112240', border: '1px solid #1E3A5F', borderRadius: '100px', padding: '8px 16px', color: '#FFFFFF', fontSize: '13px', cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap' }}
+            <button key={q} onClick={() => sendMessage(q)} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: '100px', padding: '8px 16px', color: 'var(--text)', fontSize: '13px', cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap' }}
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#00C896'; e.currentTarget.style.color = '#00C896' }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#1E3A5F'; e.currentTarget.style.color = '#FFFFFF' }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)' }}
             >
               {q}
             </button>
@@ -173,8 +172,8 @@ function ChatContent() {
       )}
 
       {/* Input */}
-      <div style={{ padding: '16px 0 20px', borderTop: messages.length > 1 ? '1px solid #1E3A5F' : 'none' }}>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', background: '#112240', border: '1px solid #1E3A5F', borderRadius: '16px', padding: '12px' }}>
+      <div style={{ padding: '16px 0 20px', borderTop: messages.length > 1 ? '1px solid var(--border)' : 'none' }}>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: '16px', padding: '12px' }}>
           <textarea
             ref={inputRef}
             value={input}
@@ -183,17 +182,17 @@ function ChatContent() {
             placeholder={limitReached ? t(lang, 'chat_placeholder_limit') : t(lang, 'chat_placeholder')}
             disabled={loading || limitReached}
             rows={1}
-            style={{ flex: 1, background: 'transparent', border: 'none', color: '#FFFFFF', fontSize: '15px', outline: 'none', resize: 'none', maxHeight: '120px', lineHeight: 1.5, opacity: limitReached ? 0.5 : 1 }}
+            style={{ flex: 1, background: 'transparent', border: 'none', color: 'var(--text)', fontSize: '15px', outline: 'none', resize: 'none', maxHeight: '120px', lineHeight: 1.5, opacity: limitReached ? 0.5 : 1 }}
           />
           <button
             onClick={() => sendMessage(input)}
             disabled={!input.trim() || loading || limitReached}
-            style={{ width: '40px', height: '40px', borderRadius: '10px', background: input.trim() && !loading && !limitReached ? '#00C896' : '#1E3A5F', border: 'none', cursor: input.trim() && !loading && !limitReached ? 'pointer' : 'not-allowed', fontSize: '18px', transition: 'background 0.2s', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{ width: '40px', height: '40px', borderRadius: '10px', background: input.trim() && !loading && !limitReached ? '#00C896' : 'var(--border)', border: 'none', cursor: input.trim() && !loading && !limitReached ? 'pointer' : 'not-allowed', fontSize: '18px', transition: 'background 0.2s', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
             ➤
           </button>
         </div>
-        <p style={{ color: '#4A6080', fontSize: '11px', textAlign: 'center', marginTop: '8px' }}>
+        <p style={{ color: 'var(--muted)', fontSize: '11px', textAlign: 'center', marginTop: '8px' }}>
           {t(lang, 'chat_disclaimer')}
         </p>
       </div>
@@ -203,7 +202,7 @@ function ChatContent() {
 
 export default function ChatPage() {
   return (
-    <Suspense fallback={<div style={{ background: '#0A1628', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4A6080' }}>...</div>}>
+    <Suspense fallback={<div style={{ background: 'var(--bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--muted)' }}>...</div>}>
       <ChatContent />
     </Suspense>
   )

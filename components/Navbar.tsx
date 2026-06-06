@@ -4,12 +4,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useLang } from '@/lib/LanguageContext'
+import { useTheme } from '@/lib/ThemeContext'
 import { t } from '@/lib/i18n'
 
 export default function Navbar() {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const { lang, setLang } = useLang()
+  const { theme, toggleTheme } = useTheme()
 
   const navLinks = [
     { href: '/', label: t(lang, 'nav_home') },
@@ -20,9 +22,9 @@ export default function Navbar() {
 
   return (
     <nav style={{
-      background: 'rgba(10, 22, 40, 0.95)',
+      background: 'rgba(var(--bg-rgb), 0.95)',
       backdropFilter: 'blur(12px)',
-      borderBottom: '1px solid #1E3A5F',
+      borderBottom: '1px solid var(--border)',
       position: 'sticky',
       top: 0,
       zIndex: 50,
@@ -40,7 +42,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', flexShrink: 0 }}>
           <span style={{ fontSize: '24px' }}>⚖️</span>
-          <span style={{ fontSize: '20px', fontWeight: 700, color: '#FFFFFF' }}>
+          <span style={{ fontSize: '20px', fontWeight: 700, color: 'var(--text)' }}>
             Kurush<span style={{ color: '#00C896' }}>Lex</span>
           </span>
         </Link>
@@ -52,7 +54,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               style={{
-                color: pathname === link.href ? '#00C896' : '#FFFFFF',
+                color: pathname === link.href ? '#00C896' : 'var(--text)',
                 textDecoration: 'none',
                 fontSize: '15px',
                 fontWeight: pathname === link.href ? 600 : 400,
@@ -60,7 +62,7 @@ export default function Navbar() {
                 whiteSpace: 'nowrap',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#00C896')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = pathname === link.href ? '#00C896' : '#FFFFFF')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = pathname === link.href ? '#00C896' : 'var(--text)')}
             >
               {link.label}
             </Link>
@@ -69,8 +71,8 @@ export default function Navbar() {
           {/* Language switcher */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: '2px',
-            background: '#112240',
-            border: '1px solid #1E3A5F',
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border)',
             borderRadius: '100px',
             padding: '3px',
             flexShrink: 0,
@@ -84,20 +86,41 @@ export default function Navbar() {
                   borderRadius: '100px',
                   border: 'none',
                   background: lang === l ? '#00C896' : 'transparent',
-                  color: lang === l ? '#0A1628' : '#4A6080',
+                  color: lang === l ? 'var(--bg)' : 'var(--muted)',
                   fontSize: '13px',
                   fontWeight: 700,
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   letterSpacing: '0.03em',
                 }}
-                onMouseEnter={(e) => { if (lang !== l) e.currentTarget.style.color = '#FFFFFF' }}
-                onMouseLeave={(e) => { if (lang !== l) e.currentTarget.style.color = '#4A6080' }}
+                onMouseEnter={(e) => { if (lang !== l) e.currentTarget.style.color = 'var(--text)' }}
+                onMouseLeave={(e) => { if (lang !== l) e.currentTarget.style.color = 'var(--muted)' }}
               >
                 {l.toUpperCase()}
               </button>
             ))}
           </div>
+
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            title={theme === 'light' ? 'Тёмная тема' : 'Светлая тема'}
+            style={{
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
+              padding: '6px 10px',
+              cursor: 'pointer',
+              fontSize: '17px',
+              lineHeight: 1,
+              transition: 'all 0.2s',
+              flexShrink: 0,
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#00C896')}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
 
           {/* Download button */}
           <Link
@@ -127,13 +150,29 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Right side mobile: lang switcher + hamburger */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '10px' }} className="mobile-right">
+        {/* Right side mobile: theme + lang switcher + hamburger */}
+        <div style={{ display: 'none', alignItems: 'center', gap: '8px' }} className="mobile-right">
+          {/* Mobile theme toggle */}
+          <button
+            onClick={toggleTheme}
+            style={{
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border)',
+              borderRadius: '8px',
+              padding: '5px 8px',
+              cursor: 'pointer',
+              fontSize: '15px',
+              lineHeight: 1,
+            }}
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+
           {/* Mobile lang switcher */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: '2px',
-            background: '#112240',
-            border: '1px solid #1E3A5F',
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border)',
             borderRadius: '100px',
             padding: '3px',
           }}>
@@ -146,7 +185,7 @@ export default function Navbar() {
                   borderRadius: '100px',
                   border: 'none',
                   background: lang === l ? '#00C896' : 'transparent',
-                  color: lang === l ? '#0A1628' : '#4A6080',
+                  color: lang === l ? 'var(--bg)' : 'var(--muted)',
                   fontSize: '12px',
                   fontWeight: 700,
                   cursor: 'pointer',
@@ -172,9 +211,9 @@ export default function Navbar() {
             }}
             aria-label="Меню"
           >
-            <span style={{ display: 'block', width: '24px', height: '2px', background: '#FFFFFF', borderRadius: '2px', transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
-            <span style={{ display: 'block', width: '24px', height: '2px', background: '#FFFFFF', borderRadius: '2px', opacity: menuOpen ? 0 : 1, transition: 'all 0.3s' }} />
-            <span style={{ display: 'block', width: '24px', height: '2px', background: '#FFFFFF', borderRadius: '2px', transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
+            <span style={{ display: 'block', width: '24px', height: '2px', background: 'var(--text)', borderRadius: '2px', transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
+            <span style={{ display: 'block', width: '24px', height: '2px', background: 'var(--text)', borderRadius: '2px', opacity: menuOpen ? 0 : 1, transition: 'all 0.3s' }} />
+            <span style={{ display: 'block', width: '24px', height: '2px', background: 'var(--text)', borderRadius: '2px', transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
           </button>
         </div>
       </div>
@@ -182,8 +221,8 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div style={{
-          background: '#112240',
-          borderTop: '1px solid #1E3A5F',
+          background: 'var(--bg-secondary)',
+          borderTop: '1px solid var(--border)',
           padding: '16px 24px',
           display: 'flex',
           flexDirection: 'column',
@@ -195,12 +234,12 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setMenuOpen(false)}
               style={{
-                color: pathname === link.href ? '#00C896' : '#FFFFFF',
+                color: pathname === link.href ? '#00C896' : 'var(--text)',
                 textDecoration: 'none',
                 fontSize: '16px',
                 fontWeight: pathname === link.href ? 600 : 400,
                 padding: '12px 0',
-                borderBottom: '1px solid #1E3A5F',
+                borderBottom: '1px solid var(--border)',
                 display: 'block',
               }}
             >

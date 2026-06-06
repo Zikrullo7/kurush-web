@@ -1,12 +1,28 @@
 @import "tailwindcss";
 
 :root {
+  /* Light theme (default) */
+  --bg: #F5F8FF;
+  --bg-secondary: #EBF0FF;
+  --accent: #00C896;
+  --text: #0D1B2E;
+  --text-secondary: #475569;
+  --muted: #6B7A9A;
+  --border: #C0CFE8;
+  --bg-rgb: 245, 248, 255;
+  --bg-secondary-rgb: 235, 240, 255;
+}
+
+.dark {
   --bg: #0A1628;
   --bg-secondary: #112240;
   --accent: #00C896;
   --text: #FFFFFF;
+  --text-secondary: #8BA0B8;
   --muted: #4A6080;
   --border: #1E3A5F;
+  --bg-rgb: 10, 22, 40;
+  --bg-secondary-rgb: 17, 34, 64;
 }
 
 @theme inline {
@@ -48,6 +64,12 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
+}
+
+/* Input placeholders */
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
 }
 
 /* Chat bubbles animation */

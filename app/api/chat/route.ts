@@ -2,9 +2,30 @@ import { NextRequest, NextResponse } from 'next/server'
 import { LAWS_DB_TEXT } from '@/lib/laws-data'
 
 export const runtime = 'edge'
+export const maxDuration = 30
+
+async function fetchWithRetry(url: string, options: RequestInit, retries = 3): Promise<Response> {
+  for (let i = 0; i < retries; i++) {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 25000)
+    try {
+      const response = await fetch(url, { ...options, signal: controller.signal })
+      clearTimeout(timeout)
+      if (response.ok) return response
+      // Non-2xx: log and retry (except 4xx client errors — no point retrying)
+      const status = response.status
+      if (status >= 400 && status < 500) return response
+      if (i < retries - 1) await new Promise((r) => setTimeout(r, 1500 * (i + 1)))
+    } catch (e) {
+      clearTimeout(timeout)
+      if (i === retries - 1) throw e
+      await new Promise((r) => setTimeout(r, 1500 * (i + 1)))
+    }
+  }
+  throw new Error('All retries exhausted')
+}
 
 export async function POST(req: NextRequest) {
-  // Parse lang outside try so catch block can access it
   let lang = 'ru'
   try {
     const body = await req.json()
@@ -52,27 +73,30 @@ ${LAWS_DB_TEXT}`
 БАЗА ЗАКОНОВ ТАДЖИКИСТАНА:
 ${LAWS_DB_TEXT}`
 
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://kurushlex.tj',
-        'X-Title': 'KurushLex',
-      },
-      body: JSON.stringify({
-        model: 'openai/gpt-4o-mini',
-        max_tokens: 500,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          ...(Array.isArray(history) ? history.slice(-10) : []),
-          { role: 'user', content: message },
-        ],
-      }),
-    })
+    const response = await fetchWithRetry(
+      'https://openrouter.ai/api/v1/chat/completions',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://kurushlex.tj',
+          'X-Title': 'KurushLex',
+        },
+        body: JSON.stringify({
+          model: 'meta-llama/llama-3.3-70b-instruct:free',
+          max_tokens: 500,
+          messages: [
+            { role: 'system', content: systemPrompt },
+            ...(Array.isArray(history) ? history.slice(-10) : []),
+            { role: 'user', content: message },
+          ],
+        }),
+      }
+    )
 
     if (!response.ok) {
-      console.error('OpenRouter error:', await response.text())
+      console.error('OpenRouter error:', response.status, await response.text())
       return NextResponse.json({
         text: lang === 'tj'
           ? 'Хатои сервер. Дубора санҷед.'
@@ -87,10 +111,15 @@ ${LAWS_DB_TEXT}`
     return NextResponse.json({ text })
   } catch (error) {
     console.error('Chat API error:', error)
+    const isAbort = error instanceof Error && error.name === 'AbortError'
     return NextResponse.json({
       text: lang === 'tj'
-        ? 'Хато рух дод. Интернетро санҷед.'
-        : 'Произошла ошибка. Проверьте подключение к интернету.',
+        ? isAbort
+          ? 'Вақт тамом шуд. Дубора санҷед.'
+          : 'Пайваст нест. Интернетро тафтиш кунед.'
+        : isAbort
+          ? 'Время ожидания истекло. Попробуйте ещё раз.'
+          : 'Нет соединения. Проверьте интернет.',
     })
   }
 }

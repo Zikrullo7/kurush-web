@@ -22,14 +22,14 @@ export default function ShareButton({ title, article }: ShareButtonProps) {
       onClick={handleShare}
       style={{
         display: 'flex', alignItems: 'center', gap: '8px',
-        background: 'transparent', color: '#FFFFFF',
+        background: 'transparent', color: 'var(--text)',
         padding: '14px 24px', borderRadius: '12px',
-        border: '1px solid #1E3A5F',
+        border: '1px solid var(--border)',
         cursor: 'pointer', fontWeight: 600, fontSize: '15px',
         transition: 'border-color 0.2s',
       }}
       onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#00C896')}
-      onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#1E3A5F')}
+      onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--border)')}
     >
       📤 Поделиться
     </button>

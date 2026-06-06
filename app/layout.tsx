@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { LanguageProvider } from '@/lib/LanguageContext'
+import { ThemeProvider } from '@/lib/ThemeContext'
 
 const inter = Inter({
   subsets: ['latin', 'cyrillic'],
@@ -31,12 +32,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="tg" className={inter.variable}>
-      <body style={{ background: '#0A1628', color: '#FFFFFF', fontFamily: 'Inter, sans-serif' }}>
-        <LanguageProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </LanguageProvider>
+      {/* Anti-flash: apply saved dark class before React hydrates */}
+      <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('kurushlex_theme');if(t==='dark')document.documentElement.classList.add('dark');})()` }} />
+      <body>
+        <ThemeProvider>
+          <LanguageProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

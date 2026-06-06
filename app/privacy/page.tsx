@@ -71,11 +71,11 @@ export default function PrivacyPage() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A1628', padding: '40px 24px' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', padding: '40px 24px' }}>
       <div style={{ maxWidth: '780px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ marginBottom: '48px' }}>
-          <Link href="/" style={{ color: '#4A6080', textDecoration: 'none', fontSize: '14px', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '24px' }}>
+          <Link href="/" style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: '14px', display: 'inline-flex', alignItems: 'center', gap: '6px', marginBottom: '24px' }}>
             ← На главную
           </Link>
 
@@ -89,10 +89,10 @@ export default function PrivacyPage() {
             </span>
           </div>
 
-          <h1 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#FFFFFF', marginBottom: '16px' }}>
+          <h1 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: 'var(--text)', marginBottom: '16px' }}>
             Политика конфиденциальности
           </h1>
-          <p style={{ color: '#4A6080', fontSize: '16px', lineHeight: 1.7 }}>
+          <p style={{ color: 'var(--muted)', fontSize: '16px', lineHeight: 1.7 }}>
             KurushLex серьёзно относится к защите ваших данных. Этот документ объясняет,
             какие данные мы собираем и как их используем.
           </p>
@@ -102,12 +102,12 @@ export default function PrivacyPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '48px' }}>
           {sections.map((section) => (
             <div key={section.title} style={{
-              background: '#112240',
-              border: '1px solid #1E3A5F',
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border)',
               borderRadius: '16px',
               padding: '28px',
             }}>
-              <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#FFFFFF', marginBottom: '16px' }}>
+              <h2 style={{ fontSize: '18px', fontWeight: 700, color: 'var(--text)', marginBottom: '16px' }}>
                 {section.title}
               </h2>
               <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -115,9 +115,9 @@ export default function PrivacyPage() {
                   <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                     <span style={{ color: '#00C896', flexShrink: 0, marginTop: '2px' }}>•</span>
                     <span
-                      style={{ color: '#8BA0B8', fontSize: '15px', lineHeight: 1.6 }}
+                      style={{ color: 'var(--text-secondary)', fontSize: '15px', lineHeight: 1.6 }}
                       dangerouslySetInnerHTML={{
-                        __html: item.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#FFFFFF">$1</strong>'),
+                        __html: item.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text)">$1</strong>'),
                       }}
                     />
                   </li>
@@ -136,10 +136,10 @@ export default function PrivacyPage() {
           textAlign: 'center',
         }}>
           <div style={{ fontSize: '32px', marginBottom: '12px' }}>📧</div>
-          <h3 style={{ color: '#FFFFFF', fontWeight: 700, fontSize: '18px', marginBottom: '8px' }}>
+          <h3 style={{ color: 'var(--text)', fontWeight: 700, fontSize: '18px', marginBottom: '8px' }}>
             Вопросы по конфиденциальности
           </h3>
-          <p style={{ color: '#4A6080', marginBottom: '16px', fontSize: '14px' }}>
+          <p style={{ color: 'var(--muted)', marginBottom: '16px', fontSize: '14px' }}>
             По любым вопросам, связанным с вашими данными, пишите нам:
           </p>
           <a href="mailto:kurushlex@gmail.com" style={{
@@ -148,7 +148,7 @@ export default function PrivacyPage() {
           }}>
             kurushlex@gmail.com
           </a>
-          <p style={{ color: '#4A6080', fontSize: '13px', marginTop: '16px' }}>
+          <p style={{ color: 'var(--muted)', fontSize: '13px', marginTop: '16px' }}>
             © 2026 KurushLex. Таджикистан 🇹🇯
           </p>
         </div>
